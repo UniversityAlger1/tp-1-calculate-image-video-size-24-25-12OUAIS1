@@ -1,14 +1,17 @@
 #include <string.h>
 #include "config/coloredBitmap.h"
-// Parameters:
-//   w: width of the image
-//   h: height of the image
-//   u: Unit of the output value. It could be 'bt' bits, 'ko' kilobits, 'mo' megabits, 'go' gigabits
-// Return value
-//   colored image size Bitmap (based on the unit passed parametter)
-float coloredBitmap(int w, int h, char* unit) {
-   // YOUR CODE HERE - BEGIN
-
-   // YOUR CODE HERE - END
+float coloredBitmap(int w, int h, char* u) {
+   int totalPixels = w * h;
+   int totalBits = totalPixels * 24;
+   if (strcmp(u, "bt") == 0) {
+       return totalBits; 
+   } else if (strcmp(u, "ko") == 0) {
+       return (float)totalBits / (8 * 1024);
+   } else if (strcmp(u, "mo") == 0) {
+       return (float)totalBits / (8 * 1024 * 1024);
+   } else if (strcmp(u, "go") == 0) {
+       return (float)totalBits / (8 * 1024 * 1024 * 1024); 
+   }
    return 0;
 }
+

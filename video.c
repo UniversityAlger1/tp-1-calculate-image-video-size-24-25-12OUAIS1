@@ -1,16 +1,21 @@
 #include <string.h>
 #include "config/video.h"
-// Parameters:
-//   w: width of the image
-//   h: height of the image
-//   durationMovie: duration in second of movie (colored image)
-//   durationCredits: duration in second of credit (image Black/White)
-//   unit: Unit of the output value. It could be 'bt' byte, 'ko' kilobits, 'mo' megabits, 'go' gigabits
-// Return value
-//   colored video size (based on the unit passed parametter)
-float video(int w, int h, int durationMovie, int durationCredits, int fps, char* unit) {
-   // YOUR CODE HERE - BEGIN
-
-   // YOUR CODE HERE - END
+float video(int w, int h, int durationMovie, int durationCredits, int fps, char* u) {
+   int totalFramesMovie = fps * durationMovie;
+   int totalFramesCredits = fps * durationCredits;
+   int sizePerFrameColored = w * h * 24;     
+   int sizePerFrameGray = w * h * 8;          
+   long long totalBitsMovie = (long long)totalFramesMovie * sizePerFrameColored;
+   long long totalBitsCredits = (long long)totalFramesCredits * sizePerFrameGray;
+   long long totalBits = totalBitsMovie + totalBitsCredits; 
+   if (strcmp(u, "bt") == 0) {
+       return (float)totalBits; 
+   } else if (strcmp(u, "ko") == 0) {
+       return (float)totalBits / (8 * 1024); 
+   } else if (strcmp(u, "mo") == 0) {
+       return (float)totalBits / (8 * 1024 * 1024);
+   } else if (strcmp(u, "go") == 0) {
+       return (float)totalBits / (8 * 1024 * 1024 * 1024); 
+   }
    return 0;
 }
