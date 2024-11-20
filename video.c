@@ -1,21 +1,26 @@
 #include <string.h>
+#include <stdio.h>
 #include "config/video.h"
-float video(int w, int h, int durationMovie, int durationCredits, int fps, char* u) {
-   int totalFramesMovie = fps * durationMovie;
-   int totalFramesCredits = fps * durationCredits;
-   int sizePerFrameColored = w * h * 24;     
-   int sizePerFrameGray = w * h * 8;          
-   long long totalBitsMovie = (long long)totalFramesMovie * sizePerFrameColored;
-   long long totalBitsCredits = (long long)totalFramesCredits * sizePerFrameGray;
-   long long totalBits = totalBitsMovie + totalBitsCredits; 
-   if (strcmp(u, "bt") == 0) {
-       return (float)totalBits; 
-   } else if (strcmp(u, "ko") == 0) {
-       return (float)totalBits / (8 * 1024); 
-   } else if (strcmp(u, "mo") == 0) {
-       return (float)totalBits / (8 * 1024 * 1024);
-   } else if (strcmp(u, "go") == 0) {
-       return (float)totalBits / (8 * 1024 * 1024 * 1024); 
-   }
-   return 0;
+float video(int w, int h, int durationMovie, int durationCredits, int fps, char* unit) {
+    
+    float bitsPerPixel = 24;
+
+    float clrImage = w * h * bitsPerPixel * durationMovie * fps;
+    float BImage = w * h * durationCredits * fps;
+    float sizeInBits = clrImage + BImage; 
+    float size;
+    if (strcmp(unit, "bt") == 0) {
+        size = sizeInBits; 
+    } else if (strcmp(unit, "ko") == 0) {
+        size = sizeInBits / (1024); 
+    } else if (strcmp(unit, "mo") == 0) {
+        size = sizeInBits / (1024 * 1024); 
+    } else if (strcmp(unit, "go") == 0) {
+        size = sizeInBits / (1024 * 1024 * 1024); 
+    } else {
+    
+        return -1.0f;
+    }
+
+    return size / 8;
 }
