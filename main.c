@@ -5,7 +5,7 @@
 #include "config/video.h"
 
 float grayScaleImage(int w, int h);
-float coloredBitmap(int w, int h, char* u);
+float coloredBitmap(int w, int h, char* unit);
 float video(int w, int h, int durationMovie, int durationCredits, int fps, char* u);
 
 int main() {
